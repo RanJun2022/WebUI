@@ -1,0 +1,133 @@
+
+.keyboard {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background-color: #D9DCE3;
+  * {
+    -moz-user-select:none; /*火狐*/
+    -webkit-user-select:none; /*webkit浏览器*/
+    -ms-user-select:none; /*IE10*/
+    -khtml-user-select:none; /*早期浏览器*/
+    user-select:none;
+  }
+  ul {
+    display: flex;
+    word-break: break-word;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 10px 5px calc(var(--web-safe-area-bottom) + 30px);
+  }
+  li {
+    list-style: none;
+    width: 32%;
+    text-align: center;
+    background-color: white;
+    margin: 3px 0;
+    border-radius: 5px;
+    height: 44px;
+    line-height: 44px;
+    font-weight: 500;
+    font-size: 28px;
+    box-shadow:0 2px 4px 0 rgba(55, 67, 137, 0.25);
+    &:active {
+      background-color: #e4e4e4;
+    }
+  }
+  li.disabled {
+    pointer-events: none;
+    background-color: transparent;
+    visibility: hidden;
+    box-shadow: none;
+  }
+  li.back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    background-color: transparent;
+    box-shadow: none;
+    i {
+      pointer-events: none;
+    }
+    &:active {
+      color: #b5b5b5
+    }
+  }
+}
+.keyboard.show {
+  animation: showPop 0.5s ease forwards;
+}
+.keyboard.close {
+  animation: hidePop 1s ease forwards;
+}
+
+@keyframes showPop {
+  0% {
+    bottom: -100%;
+  }
+  100% {
+    bottom: 0;
+  }
+}
+@keyframes hidePop {
+  0% {
+    bottom: 0;
+  }
+  100% {
+    bottom: -100%;
+  }
+}
+
+//.placeholder:empty:before{
+//  content: attr(placeholder) !important;
+//  color:#bbb !important;
+//}
+.web-input {
+  padding: 5px 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+  &:empty:before {
+    content: attr(placeholder) !important;
+    color:#bbb !important;
+    width: auto;
+    background-color: transparent;
+    animation:none;
+    font-weight: 400;
+  }
+}
+.web-input-top .web-input {
+  z-index: 999;
+}
+.input-cursor {
+  position: absolute;
+  left: 0;
+  width: 1px;
+  top: 5px;
+  bottom:5px;
+  background-color: #333;
+}
+.input-cursor.active {
+  animation: focusAni 0.8s ease-in-out infinite;
+}
+
+@keyframes focusAni {
+  0%{
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.keyboard-shadow {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}

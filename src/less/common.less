@@ -1,0 +1,28 @@
+:root {
+  --web-safe-area-bottom: 0px;
+  --web-safe-area-top: 0px;
+}
+@supports (left: env(safe-area-inset-left)) {
+  :root {
+    --web-safe-area-top: env(safe-area-inset-top);
+    --web-safe-area-bottom: env(safe-area-inset-bottom);
+  }
+}
+* {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+ul {
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+
+input {
+  outline: none;
+  &:focus {
+    border: none;
+  }
+}

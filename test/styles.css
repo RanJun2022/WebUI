@@ -1,0 +1,98 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.btn {
+    height: 32px;
+    padding: 0 15px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 32px;
+    color: #fff;
+    border: none;
+    background: #1890ff;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.slide-box {
+    position: fixed;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    background: radial-gradient(
+            50.01% 50.11%,
+            rgba(79, 79, 79, 0.3) 0%,
+            rgba(55, 55, 55, 0.45) 21.49%,
+            rgba(25, 25, 25, 0.67) 53.29%,
+            rgba(7, 7, 7, 0.86) 80.58%,
+            rgba(0, 0, 0, 1) 100%
+    );
+    user-select: none;
+}
+
+.picker-group {
+    display: flex;
+}
+
+.active {
+    color: #fff;
+    font-size: 48px;
+}
+
+.colon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 64px;
+    color: #ccc;
+}
+
+.picker-column {
+    position: relative;
+    flex: 1;
+    height: 200px;
+    margin: 0 auto;
+    overflow: hidden;
+    touch-action: none;
+}
+
+.picker-column::before {
+    width: 80px;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 34%;
+    right: 0;
+    z-index: 1;
+    height: 79px;
+    border-bottom: 1px solid #ccc;
+    background: transparent;
+}
+
+.picker-column::after {
+    width: 80px;
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 34%;
+    right: 0;
+    z-index: 1;
+    height: 79px;
+    border-top: 1px solid #ccc;
+    background: transparent;
+}
+
+li {
+    color: #ccc;
+    list-style: none;
+    font-size: 36px;
+    line-height: 40px;
+    text-align: center;
+}
+
+.btn-sure {
+    display: block;
+    margin: 15px auto 0;
+}

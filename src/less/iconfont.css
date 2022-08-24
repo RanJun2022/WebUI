@@ -1,0 +1,45 @@
+@font-face {
+  font-family: "web-icon";
+  src: url('../asset/iconfont.ttf?t=1661247402151') format('truetype');
+}
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'web-icon' !important;
+  font-style: normal;
+  vertical-align: middle;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1;
+}
+
+.icon-arrow-left:before {
+  content: "\e62a";
+}
+
+.icon-clock:before {
+  content: "\e631";
+}
+
+.icon-zone:before {
+  content: "\e633";
+}
+
+.icon-arrow-right:before {
+  content: "\e63b";
+}
+
+.icon-exclamation:before {
+  content: "\e612";
+}
+
+.icon-delete:before {
+  content: "\e665";
+}
+
+.icon-wrong:before {
+  content: "\e63d";
+}
+
+.icon-correct:before {
+  content: "\e63e";
+}
+
