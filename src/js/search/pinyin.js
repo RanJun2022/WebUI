@@ -538,3 +538,7 @@ const PinYin = {
     getPinYinAndFirstCharacter: getPinYinAndFirstCharacter,
     isEnglish: isEnglish
 };
+
+export default PinYin;
+
+

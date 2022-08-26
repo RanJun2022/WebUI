@@ -9,6 +9,7 @@ const del = require('del');               // 清空目录
 const connect = require('gulp-connect'); // 服务
 const htmlmin = require('gulp-htmlmin'); //html压缩
 
+const buildCoreJs = require('./scripts/build-js.js');
 const paths = {
     styles: {
         src: 'src/test/less',
@@ -34,17 +35,6 @@ const paths = {
         src: 'src/less',
         dest: 'build/libs/css'
     },
-    miniJS: {
-        src: [
-            'src/js/app/app.js',
-            'src/js/search/pinyin.js',
-            'src/js/keyboard/keyboard.js',
-            'src/js/toast/toast.js',
-            'src/js/calendar/timezone.js',
-            'src/js/calendar/calendar.js',
-        ],
-        dest: 'build/libs/js'
-    }
 }
 
 gulp.task('styles', async () => {
@@ -60,9 +50,6 @@ gulp.task('styles', async () => {
 });
 gulp.task('scripts', async () => {
     await gulp.src(paths.scripts.src, { sourcemaps: true })
-        // .pipe(babel({
-        //     presets: ['@babel/env']
-        // }))
         .pipe(babel())
         .pipe(uglify())
         .pipe(concat('root.min.js'))
@@ -81,12 +68,15 @@ gulp.task('libs', async () => {
         .pipe(gulp.dest(paths.libs.dest))
         .pipe(connect.reload())
 });
-gulp.task('miniAsset', async () => {
+gulp.task('core-js', async () => {
+    await buildCoreJs();
+    await connect.reload();
+})
+gulp.task('core-asset', async () => {
     await gulp.src(paths.miniAsset.src + '*.*')
         .pipe(gulp.dest(paths.miniAsset.dest))
 });
-
-gulp.task('miniCss', async () => {
+gulp.task('core-css', async () => {
     await gulp.src(paths.miniCss.src+'/root.less')
         .pipe(less())
         .pipe(cleanCSS())
@@ -97,17 +87,9 @@ gulp.task('miniCss', async () => {
         .pipe(gulp.dest(paths.miniCss.dest))
         .pipe(connect.reload())
 });
-gulp.task('miniJS', async () => {
-    await gulp.src(paths.miniJS.src, { sourcemaps: true })
-        .pipe(babel())
-        .pipe(uglify())
-        .pipe(concat('mini.min.js'))
-        .pipe(gulp.dest(paths.miniJS.dest))
-        .pipe(connect.reload())
-});
 gulp.task('watch', function(){
-    gulp.watch(paths.miniCss.src+'/*.less', gulp.series('miniCss'));
-    gulp.watch(paths.miniJS.src, gulp.series('miniJS'));
+    gulp.watch(['src/less/**/*.less'], gulp.series('core-css'));
+    gulp.watch(['src/js/**/*.js'], gulp.series('core-js'));
 });
 gulp.task('watchTest', function(){
     gulp.watch(paths.scripts.src, gulp.series('scripts'));
@@ -130,4 +112,4 @@ gulp.task('clean', async() => {
 });
 //启动开发环境 gulp.series是顺序执行 gulp.parallel是同步执行
 gulp.task('dev', gulp.series(gulp.parallel('watch','watchTest', 'connect')));
-gulp.task('build', gulp.series('clean', gulp.parallel('styles', 'miniAsset', 'miniCss','miniJS', 'scripts','libs', 'html')));
+gulp.task('build', gulp.series('clean', gulp.parallel('styles', 'core-asset', 'core-css','core-js', 'scripts','libs', 'html')));

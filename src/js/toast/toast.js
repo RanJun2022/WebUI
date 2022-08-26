@@ -1,4 +1,4 @@
-WebApp.prototype.toast = function (text, type='reminder') {
+const toast = function (text, type='reminder') {
     let icon = '';
     if (type === 'error') {
         icon = '<i class="icon-exclamation"></i>'
@@ -25,3 +25,8 @@ WebApp.prototype.toast = function (text, type='reminder') {
         }, 600)
     }, 50)
 };
+export default {
+    create(options) {
+        return toast(options)
+    }
+}

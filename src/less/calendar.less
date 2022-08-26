@@ -1,8 +1,8 @@
 
 :root {
-  --calender-height: 598px;
-  --calender-time-height: 340px;
-  --calender-zone-height: 60%;
+  --calendar-height: 598px;
+  --calendar-time-height: 340px;
+  --calendar-zone-height: 60%;
 }
 
 .pop-overlay {
@@ -15,7 +15,7 @@
   background-color: rgba(0, 0, 0, .4);
 }
 
-.calender {
+.calendar {
   div, span {
     -moz-user-select:none; /*火狐*/
     -webkit-user-select:none; /*webkit浏览器*/
@@ -242,18 +242,25 @@
     }
   }
   .footer {
-    height: 128px;
+    //height: 128px;
+    display: flex;
+    flex-direction: column;
   }
   .c-t {
+    flex: 1;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
     background-color: #F4F5F7;
     .c-k {
-      padding: 15px 0;
+      padding: 18px 0;
+      display: flex;
+      align-items: center;
       i {
         font-size: 26px;
+        margin-right: 5px;
       }
       span {
         color: #172B4D;
@@ -276,15 +283,19 @@
     .c-k {
       flex: 1;
       border-top: 1px solid #E9E9E9;
-      padding: 15px 0 30px;
+      //padding: 15px 0 30px;
     }
+  }
+  .c-t:last-child {
+    padding-bottom: 5px;
   }
 
   .inner {
     overflow: hidden;
     opacity: 1;
-    display: block !important;
-    height: var(--calender-height);
+    display: flex !important;
+    flex-direction: column;
+    height: var(--calendar-height);
   }
   .picker-time {
     opacity: 0;
@@ -295,7 +306,7 @@
     top: 0;
     right: 0;
     z-index: 99;
-    height: var(--calender-time-height);
+    height: var(--calendar-time-height);
     .back {
       padding: 20px 0 10px;
     }
@@ -427,10 +438,16 @@
       display: none;
     }
   }
-
 }
 
-.calender.show-time {
+.calendar.calendar-no {
+  --calendar-height: 484px;
+}
+.calendar.calendar-one {
+  --calendar-height: 544px;//598
+}
+
+.calendar.show-time {
   .content {
     animation: aniHideHeightTime 0.25s ease-in-out forwards;
   }
@@ -443,7 +460,7 @@
   }
 }
 
-.calender.hide-time {
+.calendar.hide-time {
   .content {
     animation: aniShowHeightTime 0.25s ease-in-out forwards;
   }
@@ -456,7 +473,7 @@
   }
 }
 
-.calender.show-zone {
+.calendar.show-zone {
   .content {
     animation: aniHideHeightZone 0.25s ease-in-out forwards;
   }
@@ -469,7 +486,7 @@
   }
 }
 
-.calender.hide-zone {
+.calendar.hide-zone {
   .content {
     animation: aniShowHeightZone 0.25s ease-in-out forwards;
   }
@@ -484,37 +501,37 @@
 
 @keyframes aniHideHeightZone {
   0% {
-    height: var(--calender-height);
+    height: var(--calendar-height);
   }
   100% {
-    height: var(--calender-zone-height);
+    height: var(--calendar-zone-height);
   }
 }
 
 @keyframes aniShowHeightZone {
   0% {
-    height: var(--calender-zone-height);
+    height: var(--calendar-zone-height);
   }
   100% {
-    height: var(--calender-height);
+    height: var(--calendar-height);
   }
 }
 
 @keyframes aniHideHeightTime {
   0% {
-    height: var(--calender-height);
+    height: var(--calendar-height);
   }
   100% {
-    height: var(--calender-time-height);
+    height: var(--calendar-time-height);
   }
 }
 
 @keyframes aniShowHeightTime {
   0% {
-    height: var(--calender-time-height);
+    height: var(--calendar-time-height);
   }
   100% {
-    height: var(--calender-height);
+    height: var(--calendar-height);
   }
 }
 

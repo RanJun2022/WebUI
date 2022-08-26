@@ -1,0 +1,360 @@
+<html>
+
+
+
+<head>
+
+    <style>
+
+    * {
+
+        margin: 0px;
+
+        padding: 0px;
+
+        box-sizing: border-box;
+
+        }
+
+    
+
+    .container {
+
+        position: relative;
+
+        margin: 20px;
+
+        width: 100px
+
+        }
+
+    
+
+    .con {
+
+        height: 450px;
+
+        border: 1px solid black;
+
+        width: 100px;
+
+        overflow: scroll;
+
+        perspective: 1000px;
+
+        }
+
+    /* 设置过度遮罩 */
+
+    
+
+    .mask {
+
+        position: absolute;
+
+        height: 450px;
+
+        width: 100px;
+
+        left: 0px;
+
+        top: 0px;
+
+        background: linear-gradient(rgba(0, 0, 0, .8), transparent, rgba(0, 0, 0, .8));
+        ;
+
+        }
+
+    
+
+    .item,
+
+    .itemForScroll {
+
+        height: 50px;
+
+        line-height: 50px;
+
+        text-align: center;
+
+        font-size: 40px;
+
+        }
+
+    
+
+    ::-webkit-scrollbar {
+
+        display: none;
+
+        /* Chrome Safari */
+
+        }
+
+    
+
+    .show {
+
+        border: 2px solid green;
+
+        position: absolute;
+
+        left: 0px;
+
+        width: 100%;
+
+        top: 200px;
+
+        pointer-events: none;
+
+        }
+
+    </style>
+
+    <title>拾取器</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+
+</head>
+
+
+
+<body>
+
+<!-- picker容器 -->
+
+<div class="container">
+
+    <!-- 模拟小窗口 -->
+
+    <div class="item show">
+
+    </div>
+
+    <!-- 过度遮罩 -->
+
+    <div class="mask">
+
+    </div>
+
+    <!-- 数据 -->
+
+    <div class="con" id="con">
+
+    </div>
+
+    </div>
+
+<script>
+
+    /**
+
+     * 大体思路：
+
+     * 数据在滚动时在垂直居中的位置的数据是正常显示的
+
+     * 上下的数据要进行绕x轴旋转，来达到像滚筒的效果
+
+     * 要以垂直居中处的数据为基准往上下两侧逐渐增加旋转角度
+
+     * 在滚动的最后，要精准的选择数据
+
+     * */
+
+
+
+        // 假设 每个数据的高度为50px
+
+        // 获取数据容器
+
+    var con = document.getElementById("con");
+
+    // 定义字符串变量
+
+    var str = "";
+
+    // 定义计数器
+
+    var index = 0;
+
+    /**
+
+     * 设置4个空白数据因为数据容器高度为450px
+
+     * 每个数据的高度为50px
+
+     * 一屏展示为9个
+
+     * 要保证第一个数据在垂直居中前面要放四个 同样最后也要放四个
+
+     * index属性 要记录每个元素的序号
+
+     *
+
+     * */
+
+    for (var i = 0; i < 4; i++) {
+
+        str += "<div class='itemForScroll' index='" + index + "'>" + "</div>";
+
+        index++
+
+    }
+
+    // 定义数据为50个
+
+    // num属性代表 是真实的数据的第几个
+
+    for (var i = 0; i < 50; i++) {
+
+        str += "<div class='itemForScroll num' index='" + index + "' num='" + i + "'>" + (2012 + i) + "</div>";
+
+        index++
+
+    }
+
+    for (var i = 0; i < 4; i++) {
+
+        str += "<div class='itemForScroll' index='" + index + "'>" + "</div>";
+
+        index++
+
+    }
+
+    // 放入数据容器
+
+    con.innerHTML = con.innerHTML + str;
+
+    // 绘制方法
+
+    function draw() {
+
+        // 判断当前应该是那个数据在垂直居中的位置
+
+        var num = Math.round(con.scrollTop / 50);
+
+        // 获取数据元素集合
+
+        var numsArr = document.getElementsByClassName("itemForScroll");
+
+        for (var k = 0; k < numsArr.length; k++) {
+
+            var item = numsArr[k];
+
+            // 重置所有元素的绕X轴的旋转角度
+
+            item.style.transform = "rotateX(" + 0 + "deg)";
+
+        }
+
+        // 因为一屏要展示450/50 9个 在第5个时 旋转的角度为0度
+
+        // 现在要从第5个数据往上下各第七个数据开始就要进行角度调整
+
+        // 目的是为了防止滑动过快时出现两头的数据没有做角度转换
+
+        var deg = -7 * 25;
+
+        var start = num - 7;
+
+        var end = num + 7;
+
+        // 循环这15个数据
+
+        for (var t = start; t <= end; t++) {
+
+            if (t >= 0) {
+
+                // 加4之后是真实的数据
+
+
+
+                var item = numsArr[t + 4];
+
+                if (item) {
+
+                    item.style.transform = "rotateX(" + deg + "deg) "
+
+                }
+
+
+
+            }
+
+            // 角度每次增加25
+
+            deg += 25;
+
+        }
+
+    }
+
+    // 初始化时先执行一次
+
+    draw();
+
+    // 数据容器滚动
+
+    con.addEventListener("scroll", function() {
+
+        // 滚动时不断调整滚动的数据
+
+        draw()
+
+        // 利用函数防抖
+
+        if (window.timer) {
+
+            clearTimeout(window.timer);
+
+        }
+
+        // 在滚动结束后执行
+
+        window.timer = setTimeout(function() {
+
+            // 获取滚动到容器上部的距离与50的余数
+
+            var remainder = con.scrollTop % 50;
+
+            // 如果余数等于0，则不需要调整
+
+            if (remainder == 0) {
+
+                clearTimeout(window.timer);
+
+                window.timer = false
+
+                return
+
+            }
+
+            // 如果余数大于等于容器的一半
+
+            if (remainder >= 25) {
+
+                con.scrollTop = con.scrollTop - remainder + 50
+
+            }
+
+            // 如果余数小于容器的一半
+
+            if (remainder < 25) {
+
+                con.scrollTop = con.scrollTop - remainder
+
+            }
+
+            // 清除timer
+
+            window.timer = false
+
+        }, 100)
+
+    }, false)
+
+</script>
+
+</body>
+
+</html>
